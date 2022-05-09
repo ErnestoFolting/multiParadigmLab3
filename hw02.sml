@@ -60,3 +60,12 @@ datatype color = Red | Black
 datatype move = Discard of card | Draw 
 
 exception IllegalMove
+
+(*a*)
+fun card_color(card) = 
+   case card of
+   (Diamonds,_) => Red
+   |(Hearts,_) => Red
+   |(_,_) => Black;
+
+card_color((Diamonds,Jack))
