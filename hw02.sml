@@ -69,3 +69,12 @@ fun card_color(card) =
    |(_,_) => Black;
 
 card_color((Diamonds,Jack))
+
+(*b*)
+fun card_value(card) = 
+   case card of
+   (_,Ace) => 11
+   |(_,Num num) => num
+   |(_,_) => 10;
+
+card_value((Diamonds,Num 1))
