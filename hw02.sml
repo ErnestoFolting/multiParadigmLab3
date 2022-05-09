@@ -13,6 +13,37 @@ fun all_except_option(str, strlst) =
                      |SOME exceptOption => SOME(hd::exceptOption)
 val test1 = all_except_option("check2",["check2","check1","check3"])           
 
+(*b*)
+fun get_substitutions1(strlstlst, str) = 
+   case strlstlst of 
+   [] => []
+   |(hd::tl) => case all_except_option(str,hd) of
+                     NONE => get_substitutions1(tl,str)
+                     | SOME strlst => strlst @ get_substitutions1(tl,str); 
+
+get_substitutions1([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 (* TASK 2*)
 datatype suit = Clubs | Diamonds | Hearts | Spades
