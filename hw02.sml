@@ -23,7 +23,19 @@ fun get_substitutions1(strlstlst, str) =
 
 get_substitutions1([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff")
 
+(*c*)
 
+fun get_substitutions2(strlstlst, str) = 
+   let fun temp(strlstlst,str,acc) = 
+      case strlstlst of 
+         [] => acc 
+         |hd::tl => case all_except_option(str,hd) of
+                     NONE => temp(strlstlst,str,acc)
+                     | SOME strlst => temp(strlstlst,str,acc @ strlst)
+   in 
+      temp(strlstlst,str,[])
+   end;
+val test3 = get_substitutions2([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff")
 
 
 
