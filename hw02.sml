@@ -78,3 +78,17 @@ fun card_value(card) =
    |(_,_) => 10;
 
 card_value((Diamonds,Num 1))
+
+(*с*)
+fun remove_card(cs,c,e) = 
+   case cs of
+   [] => raise e
+   |(hd::tl) => if hd = c then tl 
+               else hd::remove_card(tl,c,e);
+
+val test1_2c = remove_card([(Hearts, Num 10), (Hearts, Num 9), (Diamonds, King), (Spades, Ace)],
+(Spades, Ace), IllegalMove);
+val test2_2c = remove_card([(Hearts, Num 9), (Hearts, Num 9), (Diamonds, King), (Spades, Ace)],
+(Hearts, Num 9), IllegalMove);
+val test3_2c = remove_card([(Hearts, Num 10), (Hearts, Num 9), (Diamonds, King), (Spades, Ace)],
+(Hearts, Ace), IllegalMove);
