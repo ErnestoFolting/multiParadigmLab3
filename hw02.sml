@@ -30,32 +30,26 @@ fun get_substitutions2(strlstlst, str) =
       case strlstlst of 
          [] => acc 
          |hd::tl => case all_except_option(str,hd) of
-                     NONE => temp(strlstlst,str,acc)
-                     | SOME strlst => temp(strlstlst,str,acc @ strlst)
+                     NONE => temp(tl,str,acc)
+                     | SOME strlst => temp(tl,str,acc @ strlst)
    in 
       temp(strlstlst,str,[])
    end;
 val test3 = get_substitutions2([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff")
 
+(*d*)
 
+fun similar_names(strlstlst, {first = f, middle = m, last = l}) = 
+let fun temp(strlst) = 
+   case strlst of 
+      [] => []
+      |(hd::tl) => {first = hd, middle = m, last = l} :: temp(tl)
+in 
+   {first = f, middle = m, last = l} :: temp(get_substitutions1(strlstlst,f))
+end;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+val test4 = similar_names([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]],
+{first="Fred", middle="W", last="Smith"})
 
 (* TASK 2*)
 datatype suit = Clubs | Diamonds | Hearts | Spades
