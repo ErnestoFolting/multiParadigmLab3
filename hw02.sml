@@ -98,3 +98,15 @@ fun all_same_color(cs) =
                                           else false;
 
 all_same_color([(Hearts,King)])                                         
+
+(*e*)
+fun sum_cards(cs) = 
+   let fun temp(cs,acc)=
+      case cs of
+         []=> acc 
+         |(hd::tl) => temp(tl,acc + card_value(hd))
+   in
+      temp(cs,0)
+   end;
+
+sum_cards([(Hearts,King),(Clubs,Num 5)])
