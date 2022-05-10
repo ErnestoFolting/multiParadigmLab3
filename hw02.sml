@@ -86,9 +86,15 @@ fun remove_card(cs,c,e) =
    |(hd::tl) => if hd = c then tl 
                else hd::remove_card(tl,c,e);
 
-val test1_2c = remove_card([(Hearts, Num 10), (Hearts, Num 9), (Diamonds, King), (Spades, Ace)],
-(Spades, Ace), IllegalMove);
-val test2_2c = remove_card([(Hearts, Num 9), (Hearts, Num 9), (Diamonds, King), (Spades, Ace)],
-(Hearts, Num 9), IllegalMove);
-val test3_2c = remove_card([(Hearts, Num 10), (Hearts, Num 9), (Diamonds, King), (Spades, Ace)],
-(Hearts, Ace), IllegalMove);
+remove_card([(Hearts,King)],(Hearts,Queen),IllegalMove)
+
+(*d*)
+fun all_same_color(cs) =
+   case cs of
+   [] => true 
+   |el::[] => true
+   |(hd::md::tl) => if card_color(hd) = card_color(md) then 
+                                          all_same_color(md::tl)
+                                          else false;
+
+all_same_color([(Hearts,King)])                                         
