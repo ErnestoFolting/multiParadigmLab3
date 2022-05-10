@@ -110,3 +110,16 @@ fun sum_cards(cs) =
    end;
 
 sum_cards([(Hearts,King),(Clubs,Num 5)])
+
+(*f*)
+fun score(cs,goal) = 
+let fun subScore(cs) = 
+   case sum_cards(cs)>goal of
+   true =>  3*(sum_cards(cs)-goal)
+   |false =>  goal - sum_cards(cs)  
+in 
+   case all_same_color(cs)of
+   false => subScore(cs)
+   |true => subScore(cs) div 2
+end;
+score([(Hearts,King),(Clubs,Num 5)],10)
