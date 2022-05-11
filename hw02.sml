@@ -11,7 +11,7 @@ fun all_except_option(str, strlst) =
                else case all_except_option(str,tl) of
                       NONE => NONE
                      |SOME exceptOption => SOME(hd::exceptOption)
-val test1 = all_except_option("check2",["check2","check1","check3"])           
+val test1 = all_except_option("check2",["check2","check1","check3"]);       
 
 (*b*)
 fun get_substitutions1(strlstlst, str) = 
@@ -21,7 +21,7 @@ fun get_substitutions1(strlstlst, str) =
                      NONE => get_substitutions1(tl,str)
                      | SOME strlst => strlst @ get_substitutions1(tl,str); 
 
-get_substitutions1([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff")
+val test2 = ([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff");
 
 (*c*)
 
@@ -35,7 +35,7 @@ fun get_substitutions2(strlstlst, str) =
    in 
       temp(strlstlst,str,[])
    end;
-val test3 = get_substitutions2([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff")
+val test3 = get_substitutions2([["Fred","Fredrick"],["Jeff","Jeffrey"],["Geoff","Jeff","Jeffrey"]], "Jeff");
 
 (*d*)
 
@@ -49,7 +49,7 @@ in
 end;
 
 val test4 = similar_names([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]],
-{first="Fred", middle="W", last="Smith"})
+{first="Fred", middle="W", last="Smith"});
 
 (* TASK 2*)
 datatype suit = Clubs | Diamonds | Hearts | Spades
@@ -68,7 +68,7 @@ fun card_color(card) =
    |(Hearts,_) => Red
    |(_,_) => Black;
 
-card_color((Diamonds,Jack))
+card_color((Diamonds,Jack));
 
 (*b*)
 fun card_value(card) = 
@@ -77,7 +77,7 @@ fun card_value(card) =
    |(_,Num num) => num
    |(_,_) => 10;
 
-card_value((Diamonds,Num 1))
+card_value((Diamonds,Num 1));
 
 (*с*)
 fun remove_card(cs,c,e) = 
@@ -86,7 +86,7 @@ fun remove_card(cs,c,e) =
    |(hd::tl) => if hd = c then tl 
                else hd::remove_card(tl,c,e);
 
-remove_card([(Hearts,King)],(Hearts,Queen),IllegalMove)
+remove_card([(Hearts,King)],(Hearts,Queen),IllegalMove);
 
 (*d*)
 fun all_same_color(cs) =
@@ -97,7 +97,7 @@ fun all_same_color(cs) =
                                           all_same_color(md::tl)
                                           else false;
 
-all_same_color([(Hearts,King)])                                         
+all_same_color([(Hearts,King)]);                                         
 
 (*e*)
 fun sum_cards(cs) = 
@@ -109,7 +109,7 @@ fun sum_cards(cs) =
       temp(cs,0)
    end;
 
-sum_cards([(Hearts,King),(Clubs,Num 5)])
+sum_cards([(Hearts,King),(Clubs,Num 5)]);
 
 (*f*)
 fun score(cs,goal) = 
@@ -121,5 +121,24 @@ in
    case all_same_color(cs)of
    false => subScore(cs)
    |true => subScore(cs) div 2
-end;
+end
 score([(Hearts,King),(Clubs,Num 5)],10)
+
+
+
+fun officiate(cs,moves,goal)=
+   let fun move(hand,deck,movesLst) = 
+   case sum_cards(hand) > goal
+      of
+      true => score(hand,goal)
+      |false => case movesLst of
+               [] => score(hand,goal)
+               |(hd::tl) => case hd of
+                           Discard card => move(remove_card(hand,card,IllegalMove),deck,tl)     
+                           |Draw => case deck of 
+                                 []=>score(hand,goal)
+                                 | (hdDeck::tlDeck) => move(hdDeck::hand,tlDeck,tl)                       
+   in
+      move([],cs,moves)
+   end;
+officiate([(Diamonds,Jack),(Spades,Ace)],[Draw,Draw],21)
